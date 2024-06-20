@@ -1,13 +1,14 @@
-import { StrictMode } from 'react';
-import {createRoot} from 'react-dom/client'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
 import App from './App'
-import "./index.css"
+import './index.css'
 
-const $div = document.getElementById("root")!;
+const $div = document.getElementById('root')!
 
-const root = createRoot($div);
+const root = createRoot($div)
 
-root.render(<StrictMode>
-  <App />
-</StrictMode>);
-
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+)

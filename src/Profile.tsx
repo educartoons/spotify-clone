@@ -23,7 +23,7 @@ export default function Profile(props: ProfileProps){
       </figure>
       {
         showPlay ? <div className="absolute bottom-0 right-[10px]">
-        <button className="bg-green-400 w-[40px] h-[40px] rounded-full flex items-center justify-center">
+        <button className="bg-green-500 w-[40px] h-[40px] rounded-full flex items-center justify-center">
           <svg className="w-[20px] h-[20px]" data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 24 24"><path d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z" /></svg>
         </button> 
       </div> : null
