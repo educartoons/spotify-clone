@@ -36,10 +36,13 @@ const ARTISTS_API = [
 
 export default function Artists() {
   return (
-    <div className="flex">
-      {ARTISTS_API.map((element) => (
-        <Profile key={element.id} name={element.name} url={element.url} />
-      ))}
+    <div>
+      <h2 className="text-white text-2xl font-semibold">Artistas Populares</h2>
+      <div className="flex justify-between">
+        {ARTISTS_API.map((element) => (
+          <Profile key={element.id} name={element.name} url={element.url} />
+        ))}
+      </div>
     </div>
   )
 }

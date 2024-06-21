@@ -5,7 +5,7 @@ import {
   IconPlayerBefore,
   IconPlayerNext,
   IconPlayerPause,
-} from './utils/icons'
+} from '../utils/icons'
 
 export default function Player() {
   const [playing, setPlaying] = useState(false)
