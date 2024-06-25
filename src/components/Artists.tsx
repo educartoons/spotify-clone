@@ -35,6 +35,12 @@ const ARTISTS_API = [
 ]
 
 export default function Artists() {
+  const fetchArtists = async () => {}
+
+  useEffect(() => {
+    fetchArtists()
+  }, [])
+
   return (
     <div>
       <h2 className="text-white text-2xl font-semibold">Artistas Populares</h2>

@@ -6,8 +6,8 @@ import Searchbox from './Searchbox'
 export default function Header() {
   const { pathname } = useLocation()
   return (
-    <header className="text-white p-4 bg-[rgba(255,255,255,0.07)] rounded-l-md rounded-r-md rounded-b-none sticky top-0 z-10">
-      <div className="flex justify-between">
+    <header className="text-white h-[64px] px-5 bg-[rgba(255,255,255,0.07)] rounded-l-md rounded-r-md rounded-b-none sticky top-0 z-10">
+      <div className="flex h-full justify-between items-center">
         <div className="flex items-center gap-4">
           <Button variant="icon">
             <IconArrowLeft className="w-4 fill-white" />
@@ -17,7 +17,7 @@ export default function Header() {
           </Button>
           {pathname === '/search' ? <Searchbox /> : null}
         </div>
-        <div>
+        <div className="">
           <Button variant="text">Registrarse</Button>
           <Button variant="solid">Iniciar Sesion</Button>
         </div>
