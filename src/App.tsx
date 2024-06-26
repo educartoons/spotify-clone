@@ -6,6 +6,7 @@ import Lists from './components/Lists'
 import NotFound from './components/NotFound'
 import { UserContextProvider } from './context/user-context'
 import { AppContextProvider } from './context/app-context'
+import GenreView from './components/GenreView'
 
 export default function App() {
   // JSX
@@ -22,6 +23,7 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<Lists />} />
                 <Route path="/search" element={<Explorer />} />
+                <Route path="/genre/:id" element={<GenreView />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

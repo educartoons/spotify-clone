@@ -49,8 +49,9 @@ export default function Explorer() {
         {categories.map((category) => (
           <CardMusicGender
             key={category.id}
+            id={category.id}
             name={category.name}
-            color="black"
+            color={getColorFromURL(category.icons[0].url)}
             image={category.icons[0].url}
           />
         ))}
