@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Button from './Button'
 import {
   IconPlay,
@@ -14,7 +14,7 @@ export default function Player() {
     setPlaying((current) => !current)
   }
 
-  const handleKeyPress = (event: KeyboardEvent) => {
+  const handleKeyPress = (event: globalThis.KeyboardEvent): void => {
     console.log('user pressing keys')
     if (event.key === ' ') {
       handlePlay()

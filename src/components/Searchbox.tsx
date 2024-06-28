@@ -1,11 +1,15 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useRef } from 'react'
+import { useAppContext } from '../context/app-context'
 
 export default function Searchbox() {
-  const [text, setText] = useState('')
+  const {
+    filters: { searchTerm },
+    handleSearchTerm,
+  } = useAppContext()
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setText(event.target.value)
+    handleSearchTerm(event.target.value)
   }
 
   useEffect(() => {
@@ -17,7 +21,7 @@ export default function Searchbox() {
   return (
     <div>
       <input
-        value={text}
+        value={searchTerm}
         onChange={handleChange}
         ref={inputRef}
         className="bg-zinc-800 rounded-full px-6 py-3 outline-0 border-2 border-[transparent] focus:border-2 focus:border-white"

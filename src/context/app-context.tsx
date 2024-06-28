@@ -1,10 +1,14 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { Buffer } from 'buffer'
+import { fetchTokenApp } from '../api/api'
 
 type AppContextT = {
   credentials: {
     access_token: string
   }
+  filters: {
+    searchTerm: string
+  }
+  handleSearchTerm: (str: string) => void
 }
 
 const AppContext = createContext<AppContextT | undefined>(undefined)
@@ -15,6 +19,7 @@ type AppContextProviderProps = {
 
 function AppContextProvider({ children }: AppContextProviderProps) {
   const [token, setToken] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
 
   const fetchSpotifyToken = async () => {
     const tokenFromLocalStorage = window.localStorage.getItem('token')
@@ -22,29 +27,14 @@ function AppContextProvider({ children }: AppContextProviderProps) {
     if (tokenFromLocalStorage) {
       setToken(tokenFromLocalStorage)
     } else {
-      const response = await fetch('https://accounts.spotify.com/api/token', {
-        method: 'POST',
-        body: new URLSearchParams({
-          grant_type: 'client_credentials',
-        }),
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization:
-            'Basic ' +
-            Buffer.from(
-              import.meta.env.VITE_SPOTIFY_CLIENT_ID +
-                ':' +
-                import.meta.env.VITE_SPOTIFY_CLIENT_SECRET
-            ).toString('base64'),
-        },
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        setToken(data.access_token)
-        window.localStorage.setItem('token', data.access_token)
-      }
+      const token = await fetchTokenApp()
+      setToken(token)
+      window.localStorage.setItem('token', token)
     }
+  }
+
+  const handleSearchTerm = (str: string) => {
+    setSearchTerm(str)
   }
 
   useEffect(() => {
@@ -57,6 +47,10 @@ function AppContextProvider({ children }: AppContextProviderProps) {
         credentials: {
           access_token: token,
         },
+        filters: {
+          searchTerm: searchTerm,
+        },
+        handleSearchTerm,
       }}
     >
       {children}

@@ -1,8 +1,9 @@
 import { useParams } from 'react-router-dom'
+import { useQuery } from 'react-query'
 import { useAppContext } from '../context/app-context'
-import { useFetchCategory } from '../hooks/useFetchCategory'
-import { useFetchPlayListsByCategory } from '../hooks/useFetchPlaylistsByCategory'
 import CardPlaylist from './CardPlaylist'
+import { fetchCategoryById, fetchPlaylistsByCategoryId } from '../api/api'
+import { CategoryPlayList } from '../types/types'
 
 export default function GenreView() {
   const { id } = useParams()
@@ -10,8 +11,24 @@ export default function GenreView() {
     credentials: { access_token },
   } = useAppContext()
 
-  const [category] = useFetchCategory(id, access_token)
-  const [playlists] = useFetchPlayListsByCategory(id, access_token)
+  const { data: category } = useQuery<string>(
+    `category-${id}`,
+    () => {
+      return fetchCategoryById(id!, access_token)
+    },
+    {
+      enabled: id !== undefined && access_token !== '',
+    }
+  )
+  const { data: playlists } = useQuery<CategoryPlayList[]>(
+    `category-${id}-playlists`,
+    () => {
+      return fetchPlaylistsByCategoryId(id!, access_token)
+    },
+    {
+      enabled: access_token !== '' && id !== undefined,
+    }
+  )
 
   return (
     <div>
@@ -19,9 +36,11 @@ export default function GenreView() {
         <h2 className="text-white text-7xl font-bold">{category}</h2>
       </div>
       <div className="grid grid-cols-5">
-        {playlists.map((playlist) => (
-          <CardPlaylist key={playlist.id} playlist={playlist} />
-        ))}
+        {playlists
+          ? playlists.map((playlist, index) => (
+              <CardPlaylist key={index} playlist={playlist} />
+            ))
+          : null}
       </div>
     </div>
   )
