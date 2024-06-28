@@ -1,14 +1,12 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import BasicMenu from './components/BasicMenu'
-import Explorer from './components/Explorer'
 import Header from './components/Header'
-import Lists from './components/Lists'
-import NotFound from './components/NotFound'
+
 import { UserContextProvider } from './context/user-context'
 import { AppContextProvider } from './context/app-context'
-import GenreView from './components/GenreView'
-import PlaylistView from './components/PlaylistView'
+import Spinner from './components/Spinner'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,6 +15,12 @@ const queryClient = new QueryClient({
     },
   },
 })
+
+const ListsView = lazy(() => import('./components/Lists'))
+const ExplorerView = lazy(() => import('./components/Explorer'))
+const GenreView = lazy(() => import('./components/GenreView'))
+const PlaylistView = lazy(() => import('./components/PlaylistView'))
+const NotFoundView = lazy(() => import('./components/NotFound'))
 
 export default function App() {
   // JSX
@@ -31,13 +35,15 @@ export default function App() {
               </aside>
               <main className="flex-grow">
                 <Header />
-                <Routes>
-                  <Route path="/" element={<Lists />} />
-                  <Route path="/search" element={<Explorer />} />
-                  <Route path="/genre/:id" element={<GenreView />} />
-                  <Route path="/playlist/:id" element={<PlaylistView />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
+                <Suspense fallback={<Spinner />}>
+                  <Routes>
+                    <Route path="/" element={<ListsView />} />
+                    <Route path="/search" element={<ExplorerView />} />
+                    <Route path="/genre/:id" element={<GenreView />} />
+                    <Route path="/playlist/:id" element={<PlaylistView />} />
+                    <Route path="*" element={<NotFoundView />} />
+                  </Routes>
+                </Suspense>
               </main>
             </div>
           </BrowserRouter>
