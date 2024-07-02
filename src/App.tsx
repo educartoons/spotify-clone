@@ -7,6 +7,8 @@ import Header from './components/Header'
 import { UserContextProvider } from './context/user-context'
 import { AppContextProvider } from './context/app-context'
 import Spinner from './components/Spinner'
+import LoginPage from './components/LoginPage'
+import Callback from './components/Callback'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,6 +39,8 @@ export default function App() {
                 <Header />
                 <Suspense fallback={<Spinner />}>
                   <Routes>
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/callback" element={<Callback />} />
                     <Route path="/" element={<ListsView />} />
                     <Route path="/search" element={<ExplorerView />} />
                     <Route path="/genre/:id" element={<GenreView />} />
