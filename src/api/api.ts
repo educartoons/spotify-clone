@@ -87,10 +87,23 @@ const fetchPlaylistsByCategoryId = async (
   }
 }
 
+const fetchUserProfile = async (token: string) => {
+  const response = await fetch(`https://api.spotify.com/v1/me`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  if (response.ok) {
+    const data = await response.json()
+    return data
+  }
+}
+
 export {
   fetchTokenApp,
   fetchCategories,
   fetchCategoryById,
   fetchPlaylistById,
   fetchPlaylistsByCategoryId,
+  fetchUserProfile,
 }

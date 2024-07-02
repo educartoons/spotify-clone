@@ -29,9 +29,12 @@ export default function PlaylistView() {
         <div>
           <p className="text-white mt-6">Lista</p>
           <h2 className="text-white text-7xl font-bold">{playlist?.name}</h2>
-          <p className="text-[rgba(0,0,0,0.65)] text-xs">
-            {playlist?.description}
-          </p>
+          <p
+            className="text-[rgba(0,0,0,0.65)] text-xs"
+            dangerouslySetInnerHTML={{
+              __html: playlist?.description,
+            }}
+          />
         </div>
       </div>
       {playlist ? <Playlist tracks={playlist?.tracks} /> : null}
