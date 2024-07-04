@@ -10,6 +10,7 @@ import Spinner from './components/Spinner'
 import CallbackView from './components/CallbackView'
 import ProfileView from './components/ProfileView'
 import ProtectedRoute from './components/ProtectedRoute'
+import Calculator from './components/Calculator'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,6 +36,7 @@ export default function App() {
             <div className="bg-black min-h-screen flex p-2 gap-2">
               <aside className="min-w-[300px]">
                 <BasicMenu />
+                <Calculator />
               </aside>
               <main className="flex-grow">
                 <Header />

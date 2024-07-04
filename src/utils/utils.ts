@@ -15,4 +15,9 @@ function getColorFromURL(url: string): string {
   return 'peru'
 }
 
-export { getColorFromURL }
+function getTracks(playlist: any) {
+  console.log('Expensive Operation')
+  return playlist?.tracks
+}
+
+export { getColorFromURL, getTracks }

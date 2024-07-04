@@ -1,9 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react'
+import dayjs from 'dayjs'
 import { fetchTokenApp } from '../api/api'
 
 type AppContextT = {
   credentials: {
     access_token: string
+    createdAt: string
   }
   filters: {
     searchTerm: string
@@ -19,17 +21,32 @@ type AppContextProviderProps = {
 
 function AppContextProvider({ children }: AppContextProviderProps) {
   const [token, setToken] = useState('')
+  const [createdAt, setCreatedAt] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
+
+  const getSpotifyToken = async () => {
+    const token = await fetchTokenApp()
+    setToken(token)
+    const date = new Date().toISOString()
+    setCreatedAt(date)
+    window.localStorage.setItem('token', token)
+    window.localStorage.setItem('expired', date)
+  }
 
   const fetchSpotifyToken = async () => {
     const tokenFromLocalStorage = window.localStorage.getItem('token')
+    const expired = window.localStorage.getItem('expired')
 
-    if (tokenFromLocalStorage) {
-      setToken(tokenFromLocalStorage)
+    if (tokenFromLocalStorage && expired) {
+      const expiredDate = dayjs(expired).add(1, 'hour')
+      const currentDate = dayjs()
+      if (expiredDate.isAfter(currentDate)) {
+        getSpotifyToken()
+      } else {
+        setToken(tokenFromLocalStorage)
+      }
     } else {
-      const token = await fetchTokenApp()
-      setToken(token)
-      window.localStorage.setItem('token', token)
+      getSpotifyToken()
     }
   }
 
@@ -46,6 +63,7 @@ function AppContextProvider({ children }: AppContextProviderProps) {
       value={{
         credentials: {
           access_token: token,
+          createdAt: '',
         },
         filters: {
           searchTerm: searchTerm,

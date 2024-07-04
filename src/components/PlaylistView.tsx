@@ -1,10 +1,14 @@
+import { useCallback, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { useAppContext } from '../context/app-context'
 import Playlist from './Playlist'
 import { fetchPlaylistById } from '../api/api'
+import { ChangeEvent, useState } from 'react'
+import { getTracks } from '../utils/utils'
 
 export default function PlaylistView() {
+  const [searchTerm, setSearchTerm] = useState('')
   const { id } = useParams()
   const {
     credentials: { access_token },
@@ -17,6 +21,18 @@ export default function PlaylistView() {
     },
     { enabled: access_token !== '' && id !== undefined }
   )
+
+  const tracks = useMemo(() => {
+    return getTracks(playlist)
+  }, [playlist])
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+  }
+
+  const handlePlaySong = useCallback(() => {
+    console.log('playing song')
+  }, [])
 
   return (
     <div>
@@ -37,7 +53,17 @@ export default function PlaylistView() {
           />
         </div>
       </div>
-      {playlist ? <Playlist tracks={playlist?.tracks} /> : null}
+      <div className="mt-4">
+        <input
+          value={searchTerm}
+          onChange={handleChange}
+          className="text-white text-sm px-4 rounded-md w-full h-10 bg-black outline-0 focus:border-white focus:border-2"
+          type="text"
+        />
+      </div>
+      {playlist ? (
+        <Playlist tracks={tracks} handlePlaySong={handlePlaySong} />
+      ) : null}
     </div>
   )
 }
