@@ -1,15 +1,18 @@
 import { ChangeEvent, useEffect, useRef } from 'react'
-import { useAppContext } from '../context/app-context'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '@/store/store'
+import { setSearchTerm } from '@/store/appSlice'
 
 export default function Searchbox() {
   const {
     filters: { searchTerm },
-    handleSearchTerm,
-  } = useAppContext()
+  } = useSelector((state: RootState) => state.app)
+  const dispatch = useDispatch()
+
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    handleSearchTerm(event.target.value)
+    dispatch(setSearchTerm({ searchTerm: event.target.value }))
   }
 
   useEffect(() => {

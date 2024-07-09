@@ -41,9 +41,9 @@ function AppContextProvider({ children }: AppContextProviderProps) {
       const expiredDate = dayjs(expired).add(1, 'hour')
       const currentDate = dayjs()
       if (expiredDate.isAfter(currentDate)) {
-        getSpotifyToken()
-      } else {
         setToken(tokenFromLocalStorage)
+      } else {
+        getSpotifyToken()
       }
     } else {
       getSpotifyToken()

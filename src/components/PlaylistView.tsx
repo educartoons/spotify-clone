@@ -6,20 +6,24 @@ import Playlist from './Playlist'
 import { fetchPlaylistById } from '../api/api'
 import { ChangeEvent, useState } from 'react'
 import { getTracks } from '../utils/utils'
+import ErrorBoundary from './ErrorBoundary'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store/store'
 
-export default function PlaylistView() {
+function PlaylistView() {
   const [searchTerm, setSearchTerm] = useState('')
   const { id } = useParams()
+
   const {
     credentials: { access_token },
-  } = useAppContext()
+  } = useSelector((state: RootState) => state.app)
 
   const { data: playlist } = useQuery(
     `playlist-${id}`,
     () => {
-      return fetchPlaylistById(id!, access_token)
+      return fetchPlaylistById(id!, access_token!)
     },
-    { enabled: access_token !== '' && id !== undefined }
+    { enabled: access_token !== null && id !== undefined }
   )
 
   const tracks = useMemo(() => {
@@ -67,3 +71,13 @@ export default function PlaylistView() {
     </div>
   )
 }
+
+const PlaylistViewWithErrorBoundary = () => {
+  return (
+    <ErrorBoundary>
+      <PlaylistView />
+    </ErrorBoundary>
+  )
+}
+
+export default PlaylistViewWithErrorBoundary

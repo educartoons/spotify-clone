@@ -1,13 +1,19 @@
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 import Button from './Button'
 import { IconArrowLeft, IconArrowRight } from '../utils/icons'
 import Searchbox from './Searchbox'
-import { useUserContext } from '../context/user-context'
+import { RootState } from '@/store/store'
+import { logOut } from '@/store/userSlice'
 
 export default function Header() {
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const { isAuthenticated, handleLogOut, user } = useUserContext()
+  const { isAuthenticated, user } = useSelector(
+    (state: RootState) => state.user
+  )
+
+  const dispatch = useDispatch()
 
   const handlePrev = () => {
     navigate(-1)
@@ -24,6 +30,10 @@ export default function Header() {
     const RESPONSE_TYPE = 'token'
 
     window.location.href = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=user-read-private%20user-read-email`
+  }
+
+  const handleLogOut = () => {
+    dispatch(logOut())
   }
 
   const handleGoProfile = () => {

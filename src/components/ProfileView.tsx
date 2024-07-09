@@ -1,7 +1,9 @@
-import { useUserContext } from '../context/user-context'
+import { useSelector } from 'react-redux'
+import ErrorBoundary from './ErrorBoundary'
+import { RootState } from '@/store/store'
 
-export default function ProfileView() {
-  const { user } = useUserContext()
+function ProfileView() {
+  const { user } = useSelector((state: RootState) => state.user)
 
   return (
     <div className="p-10">
@@ -14,3 +16,13 @@ export default function ProfileView() {
     </div>
   )
 }
+
+const ProfileViewWithErrorBoundary = () => {
+  return (
+    <ErrorBoundary>
+      <ProfileView />
+    </ErrorBoundary>
+  )
+}
+
+export default ProfileViewWithErrorBoundary

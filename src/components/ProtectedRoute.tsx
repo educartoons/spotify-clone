@@ -1,11 +1,10 @@
 import { Outlet, Navigate } from 'react-router-dom'
-import { useUserContext } from '../context/user-context'
-import Spinner from './Spinner'
+// import Spinner from './Spinner'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store/store'
 
 export default function ProtectedRoute() {
-  const { isAuthenticated, hasLoaded } = useUserContext()
-
-  if (hasLoaded === false) return <Spinner />
+  const { isAuthenticated } = useSelector((state: RootState) => state.user)
 
   if (isAuthenticated) {
     return <Outlet />

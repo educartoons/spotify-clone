@@ -1,20 +1,22 @@
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
-import { useAppContext } from '../context/app-context'
+import { useSelector } from 'react-redux'
 import CardPlaylist from './CardPlaylist'
 import { fetchCategoryById, fetchPlaylistsByCategoryId } from '../api/api'
 import { CategoryPlayList } from '../types/types'
+import { RootState } from '@/store/store'
 
 export default function GenreView() {
   const { id } = useParams()
+
   const {
     credentials: { access_token },
-  } = useAppContext()
+  } = useSelector((state: RootState) => state.app)
 
   const { data: category } = useQuery<string>(
     `category-${id}`,
     () => {
-      return fetchCategoryById(id!, access_token)
+      return fetchCategoryById(id!, access_token!)
     },
     {
       enabled: id !== undefined && access_token !== '',
@@ -23,10 +25,10 @@ export default function GenreView() {
   const { data: playlists } = useQuery<CategoryPlayList[]>(
     `category-${id}-playlists`,
     () => {
-      return fetchPlaylistsByCategoryId(id!, access_token)
+      return fetchPlaylistsByCategoryId(id!, access_token!)
     },
     {
-      enabled: access_token !== '' && id !== undefined,
+      enabled: access_token !== null && id !== undefined,
     }
   )
 

@@ -1,8 +1,9 @@
 import { useQuery } from 'react-query'
+import { useSelector, useDispatch } from 'react-redux'
 import CardMusicGender from './CardMusicGender'
-import { useAppContext } from '../context/app-context'
 import { getColorFromURL } from '../utils/utils'
 import { fetchCategories } from '../api/api'
+import { RootState } from '@/store/store'
 
 type Icon = {
   url: string
@@ -19,15 +20,15 @@ export default function Explorer() {
   const {
     credentials: { access_token },
     filters: { searchTerm },
-  } = useAppContext()
+  } = useSelector((state: RootState) => state.app)
 
   const { data } = useQuery<Category[]>(
     'fetchCategories',
     () => {
-      return fetchCategories(access_token)
+      return fetchCategories(access_token!)
     },
     {
-      enabled: access_token !== '',
+      enabled: access_token !== null,
     }
   )
 
