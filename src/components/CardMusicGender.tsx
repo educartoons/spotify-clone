@@ -22,7 +22,7 @@ export default function CardMusicGender({
         <h2 className="text-white text-xl font-semibold w-3/5">{name}</h2>
         {image !== '' ? (
           <figure className="w-32 h-32 rounded-md overflow-hidden rotate-[30deg] absolute right-[-20px] bottom-[-10px]">
-            <img src={image} alt="" />
+            <img src={image} alt="image" />
           </figure>
         ) : null}
       </div>

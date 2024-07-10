@@ -20,4 +20,4 @@ function getTracks(playlist: any) {
   return playlist?.tracks
 }
 
-export { getColorFromURL, getTracks }
+export { getColorFromURL, getTracks, isAColor }
