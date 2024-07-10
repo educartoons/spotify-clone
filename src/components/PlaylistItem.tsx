@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { Item } from '../types/types'
@@ -10,9 +11,21 @@ type PlaylistItemProps = {
 dayjs.extend(relativeTime)
 
 export default function PlaylistItem({ item, index }: PlaylistItemProps) {
+  const [hover, setHover] = useState(false)
+
+  const handleHover = () => {
+    setHover(!hover)
+  }
   return (
-    <div className="text-white flex items-center p-2 px-4 rounded-md hover:bg-[rgba(255,255,255,0.1)]">
-      <div className="text-white w-12 opacity-70">{index + 1}</div>
+    <div
+      onMouseEnter={handleHover}
+      onMouseLeave={handleHover}
+      role="listitem"
+      className="text-white flex items-center p-2 px-4 rounded-md hover:bg-[rgba(255,255,255,0.1)]"
+    >
+      <div data-testid="index" className="text-white w-12 opacity-70">
+        {hover ? '❤️' : index + 1}
+      </div>
       <div className="text-white w-1/3">
         <div className="flex gap-4">
           <div>

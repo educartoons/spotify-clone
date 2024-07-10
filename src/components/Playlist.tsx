@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import { Item } from '../types/types'
 import PlaylistItem from './PlaylistItem'
+import { cleanTracks } from '@/utils/utils'
 
 type PlaylistProps = {
   handlePlaySong: () => void
@@ -9,11 +10,11 @@ type PlaylistProps = {
   }
 }
 
-const Playlist = memo(({ tracks, handlePlaySong }: PlaylistProps) => {
-  console.count('rendering playlist')
+const Playlist = memo(({ tracks }: PlaylistProps) => {
+  const cleanedTracks = cleanTracks(tracks)
   return (
-    <div className="px-6 py-10">
-      {tracks.items.map((item, index) => (
+    <div role="list" className="px-6 py-10">
+      {cleanedTracks.items.map((item, index) => (
         <PlaylistItem key={item.track.id} item={item} index={index} />
       ))}
     </div>

@@ -1,5 +1,7 @@
 type Image = {
   url: string
+  width: number
+  height: number
 }
 
 export type CategoryPlayList = {
@@ -19,7 +21,6 @@ export type Item = {
     name: string
     album: {
       name: string
-      duration_ms: number
       images: Image[]
     }
     artists: Artist[]
